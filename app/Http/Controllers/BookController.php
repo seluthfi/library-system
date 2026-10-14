@@ -9,76 +9,58 @@ class BookController extends Controller
 {
     public function index()
     {
-        $title = "Daftar Buku";
-        $description = "Daftar buku yang tersedia di perpustakaan:";
-
-        // $books = [
-        //     [
-        //         'title' => 'Pemrograman PHP',
-        //         'author' => 'Luthfi',
-        //         'year' => 2023
-        //     ],
-        //     [
-        //         'title' => 'Laravel untuk Pemula',
-        //         'author' => 'Raihan',
-        //         'year' => 2024
-        //     ],
-        //     [
-        //         'title' => 'Basis Data',
-        //         'author' => 'Zhilan',
-        //         'year' => 2022
-        //     ],
-        //     [
-        //         'title' => 'Algoritma dan Pemrograman',
-        //         'author' => 'Lukman',
-        //         'year' => 2023
-        //     ],
-        //     [
-        //         'title' => 'Pemrograman Berorientasi Objek',
-        //         'author' => 'Ali',
-        //         'year' => 2024
-        //     ]
-        // ];
-
+        $title = 'Daftar Buku';
         $books = Book::all();
-
-        return view('books.index', compact('title', 'description', 'books'));
+        return view('books.index', compact('title', 'books'));
     }
 
-    public function show($id)
+    public function create()
     {
-        $book = Book::find($id);
+        $title = 'Tambah Buku';
+        return view('books.create');
+    }
 
-        // $books = [
-        //     1 => [
-        //         'title' => 'Pemrograman PHP',
-        //         'author' => 'Luthfi',
-        //         'year' => 2023
-        //     ],
-        //     2 => [
-        //         'title' => 'Laravel untuk Pemula',
-        //         'author' => 'Raihan',
-        //         'year' => 2024
-        //     ],
-        //     3 => [
-        //         'title' => 'Basis Data',
-        //         'author' => 'Zhilan',
-        //         'year' => 2022
-        //     ],
-        //     4 => [
-        //         'title' => 'Algoritma dan Pemrograman',
-        //         'author' => 'Lukman',
-        //         'year' => 2023
-        //     ],
-        //     5 => [
-        //         'title' => 'Pemrograman Berorientasi Objek',
-        //         'author' => 'Ali',
-        //         'year' => 2024
-        //     ]
-        // ];
+    public function store(Request $request)
+    {
+        Book::create([
+            'title' => $request->title,
+            'author' => $request->author,
+            'year' => $request->year,
+            'stock' => $request->stock,
+            ]);
+            
+        return redirect()->route('books.index');
+    }
 
-        // $book = $books[$id] ?? null;
+    public function show(string $id)
+    {
+        $title = 'Detail Buku';
+        $book = Book::findOrFail($id);
 
-        return view('books.show', compact('id', 'book'));
+        return view('books.show', compact('title', 'book'));
+    }
+
+    public function edit(Book $book)
+    {
+        $title = 'Edit Buku';
+        return view('books.edit', compact('title', 'book'));
+    }
+
+    public function update(Request $request, Book $book)
+    {
+        $book->update([
+            'title' => $request->title,
+            'author' => $request->author,
+            'year' => $request->year,
+            'stock' => $request->stock,
+        ]);
+
+        return redirect()->route('books.index');
+    }
+
+    public function destroy(Book $book)
+    {
+        $book->delete();
+        return redirect()->route('books.index');
     }
 }

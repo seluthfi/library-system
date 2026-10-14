@@ -10,7 +10,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/books', [BookController::class, 'index'])->name('buku');
+Route::resource('books', BookController::class);
 
 Route::get('/books/{id}', [BookController::class, 'show'])->name('buku.show');
 
