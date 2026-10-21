@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BookController extends Controller
 {
@@ -20,13 +21,20 @@ class BookController extends Controller
         return view('books.create');
     }
 
-    public function store(Request $request)
-    {
+   public function store(Request $request)
+   {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'year' => 'required|integer|min:1990',
-            'stock' => 'required|integer|min:0',
+            'title'  => 'required|string|min:3|max:255|unique:books,title',
+            'author' => ['required', 'string', 'max:255', 'regex:/^[\pL\s\.\,\-\']+$/u'],
+            'year'   => 'required|integer|digits:4|min:1990|max:' . date('Y'),
+            'stock'  => 'required|integer|min:0|max:1000',
+        ], [
+            'title.min'       => 'Judul buku minimal 3 karakter.',
+            'title.unique'    => 'Judul buku ini sudah terdaftar.',
+            'author.regex'    => 'Nama penulis hanya boleh berisi huruf, spasi, titik, koma, dan tanda hubung.',
+            'year.digits'     => 'Tahun terbit harus 4 digit.',
+            'year.max'        => 'Tahun terbit tidak boleh lebih dari tahun ' . date('Y') . '.',
+            'stock.max'       => 'Stok buku maksimal 1000.',
         ]);
 
         Book::create($validated);
@@ -60,18 +68,21 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'year' => 'required|integer|min:1990',
-            'stock' => 'required|integer|min:0',
+            'title'  => ['required', 'string', 'min:3', 'max:255',
+                        Rule::unique('books', 'title')->ignore($book->id)],
+            'author' => ['required', 'string', 'max:255', 'regex:/^[\pL\s\.\,\-\']+$/u'],
+            'year'   => 'required|integer|digits:4|min:1990|max:' . date('Y'),
+            'stock'  => 'required|integer|min:0|max:1000',
+        ], [
+            'title.min'       => 'Judul buku minimal 3 karakter.',
+            'title.unique'    => 'Judul buku ini sudah terdaftar.',
+            'author.regex'    => 'Nama penulis hanya boleh berisi huruf, spasi, titik, koma, dan tanda hubung.',
+            'year.digits'     => 'Tahun terbit harus 4 digit.',
+            'year.max'        => 'Tahun terbit tidak boleh lebih dari tahun ' . date('Y') . '.',
+            'stock.max'       => 'Stok buku maksimal 1000.',
         ]);
     
-        // $book->update([
-        //     'title' => $request->title,
-        //     'author' => $request->author,
-        //     'year' => $request->year,
-        //     'stock' => $request->stock,
-        // ]);
+        $book->update($validated);
 
         return redirect()
             ->route('books.index')
