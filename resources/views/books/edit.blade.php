@@ -44,6 +44,23 @@
         @enderror
     </div>
 
+    <div>
+        <label>Kategori Buku</label>
+        <select name="category_id">
+            <option value="">Pilih Kategori</option>
+            @foreach($categories as $category)
+                <option value="{{ $category->id }}" 
+                    @selected(old('category_id') == $category->id)>
+                    {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
+
+        @error('category_id')
+            <p>{{ $message }}</p>
+        @enderror
+    </div>
+
     {{-- <input type="text" name="title" placeholder="Judul Buku" value="{{ $book->title }}">
     <input type="text" name="author" placeholder="Penulis" value="{{ $book->author }}">
     <input type="number" name="year" placeholder="Tahun Terbit" value="{{ $book->year }}">

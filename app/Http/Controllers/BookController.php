@@ -5,20 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\Category;
 
 class BookController extends Controller
 {
     public function index()
     {
         $title = 'Daftar Buku';
-        $books = Book::all();
+        $books = Book::with('category')->get();
+
         return view('books.index', compact('title', 'books'));
     }
 
     public function create()
     {
         $title = 'Tambah Buku';
-        return view('books.create');
+        $categories = Category::orderBy('name')->get();
+
+        return view('books.create', compact('categories'));
     }
 
    public function store(Request $request)
@@ -28,6 +32,7 @@ class BookController extends Controller
             'author' => ['required', 'string', 'max:255', 'regex:/^[\pL\s\.\,\-\']+$/u'],
             'year'   => 'required|integer|digits:4|min:1990|max:' . date('Y'),
             'stock'  => 'required|integer|min:0|max:1000',
+            'category_id' => ['required','exists:categories,id'],
         ], [
             'title.min'       => 'Judul buku minimal 3 karakter.',
             'title.unique'    => 'Judul buku ini sudah terdaftar.',
@@ -62,7 +67,8 @@ class BookController extends Controller
     public function edit(Book $book)
     {
         $title = 'Edit Buku';
-        return view('books.edit', compact('title', 'book'));
+        $categories = Category::orderBy('name')->get();
+        return view('books.edit', compact('title', 'book', 'categories'));
     }
 
     public function update(Request $request, Book $book)
@@ -73,6 +79,7 @@ class BookController extends Controller
             'author' => ['required', 'string', 'max:255', 'regex:/^[\pL\s\.\,\-\']+$/u'],
             'year'   => 'required|integer|digits:4|min:1990|max:' . date('Y'),
             'stock'  => 'required|integer|min:0|max:1000',
+            'category_id' => 'required|exists:categories,id',
         ], [
             'title.min'       => 'Judul buku minimal 3 karakter.',
             'title.unique'    => 'Judul buku ini sudah terdaftar.',
