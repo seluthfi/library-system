@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             [  
                 'name' => 'Admin Perpustakaan',
                 'password' => Hash::make('password123'),
+                'role' => 'admin',
             ]);
 
         User::updateOrCreate(
