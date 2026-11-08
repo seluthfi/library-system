@@ -6,7 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,11 +23,19 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
+
+    // Fitur yang boleh diakses admin dan petugas.
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
     Route::resource('books', BookController::class);
     Route::get('/books/{id}', [BookController::class, 'show'])->name('buku.show');
     Route::get('/categories', [CategoryController::class, 'index'])->name('kategori');
     Route::get('/members', [MemberController::class, 'index'])->name('anggota');
+});
+
+Route::middleware(['auth', 'role:admin', 'can:manage-users'])->group(function () {
+
+    // Hanya admin yang boleh mengelola akun pengguna.
+    Route::resource('users', UserController::class)->only(['index']);
 });
