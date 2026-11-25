@@ -4,20 +4,53 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Borrowing;
+use App\Models\BorrowingDetail;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class BorrowingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $title = 'Daftar Peminjaman';
-        $borrowings = Borrowing::with(['member', 'user', 'details.book'])
-            ->latest()
-            ->get();
+        $status = $request->query('status');
+        $q = trim((string) $request->query('q', ''));
 
-        return view('borrowings.index', compact('title', 'borrowings'));
+        $query = Borrowing::with(['member', 'user', 'details.book'])->latest();
+
+        if (in_array($status, ['borrowed', 'returned'], true)) {
+            $query->where('status', $status);
+        }
+
+        if ($q !== '') {
+            $query->where(function ($builder) use ($q) {
+                $builder->whereHas('member', function ($memberQuery) use ($q) {
+                    $memberQuery->where('name', 'like', "%{$q}%")
+                        ->orWhere('member_code', 'like', "%{$q}%");
+                })->orWhereHas('details.book', function ($bookQuery) use ($q) {
+                    $bookQuery->where('title', 'like', "%{$q}%");
+                });
+            });
+        }
+
+        $borrowings = $query->paginate(10)->withQueryString();
+
+        $totalCount = Borrowing::count();
+        $borrowedCount = Borrowing::where('status', 'borrowed')->count();
+        $returnedCount = Borrowing::where('status', 'returned')->count();
+        $totalItemsCount = BorrowingDetail::sum('quantity');
+
+        return view('borrowings.index', compact(
+            'title',
+            'borrowings',
+            'status',
+            'q',
+            'totalCount',
+            'borrowedCount',
+            'returnedCount',
+            'totalItemsCount'
+        ));
     }
 
     public function create()

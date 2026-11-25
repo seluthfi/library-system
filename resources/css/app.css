@@ -4,6 +4,114 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-surface: #faf8ff;
+    --color-surface-dim: #d0d9fe;
+    --color-surface-bright: #faf8ff;
+    --color-surface-container-lowest: #ffffff;
+    --color-surface-container-low: #f2f3ff;
+    --color-surface-container: #ebedff;
+    --color-surface-container-high: #e3e7ff;
+    --color-surface-container-highest: #dbe1ff;
+    --color-on-surface: #111a36;
+    --color-on-surface-variant: #444655;
+    --color-inverse-surface: #262f4c;
+    --color-inverse-on-surface: #eff0ff;
+    --color-outline: #757686;
+    --color-outline-variant: #c5c5d7;
+    --color-surface-tint: #314fda;
+    --color-primary: #2d4cd7;
+    --color-on-primary: #ffffff;
+    --color-primary-container: #4b67f1;
+    --color-on-primary-container: #fffbff;
+    --color-inverse-primary: #bac3ff;
+    --color-secondary: #006a65;
+    --color-on-secondary: #ffffff;
+    --color-secondary-container: #87f1e9;
+    --color-on-secondary-container: #006f69;
+    --color-tertiary: #5846ca;
+    --color-on-tertiary: #ffffff;
+    --color-tertiary-container: #7161e4;
+    --color-on-tertiary-container: #fffbff;
+    --color-error: #ba1a1a;
+    --color-on-error: #ffffff;
+    --color-error-container: #ffdad6;
+    --color-on-error-container: #93000a;
+    --color-primary-fixed: #dee1ff;
+    --color-primary-fixed-dim: #bac3ff;
+    --color-on-primary-fixed: #001159;
+    --color-on-primary-fixed-variant: #0632c2;
+    --color-secondary-fixed: #8af4ec;
+    --color-secondary-fixed-dim: #6dd8cf;
+    --color-on-secondary-fixed: #00201e;
+    --color-on-secondary-fixed-variant: #00504c;
+    --color-tertiary-fixed: #e4dfff;
+    --color-tertiary-fixed-dim: #c7bfff;
+    --color-on-tertiary-fixed: #170065;
+    --color-on-tertiary-fixed-variant: #422cb3;
+    --color-background: #faf8ff;
+    --color-on-background: #111a36;
+    --color-surface-variant: #dbe1ff;
+
+    --radius-sm: 0.5rem;
+    --radius-DEFAULT: 1rem;
+    --radius-md: 1.5rem;
+    --radius-lg: 2rem;
+    --radius-xl: 3rem;
+    --radius-full: 9999px;
+
+    --spacing-gutter: 1.5rem;
+    --spacing-gutter-sm: 1rem;
+    --spacing-margin: 2rem;
+    --spacing-margin-sm: 1rem;
+    --spacing-space-xs: 0.25rem;
+    --spacing-space-sm: 0.5rem;
+    --spacing-space-md: 1rem;
+    --spacing-space-lg: 1.5rem;
+    --spacing-space-xl: 2.5rem;
+
+    --text-display-lg: 3.5rem;
+    --text-display-lg--line-height: 4rem;
+    --text-display-lg--letter-spacing: -0.03em;
+
+    --text-stat-xl: 3rem;
+    --text-stat-xl--line-height: 3.25rem;
+    --text-stat-xl--letter-spacing: -0.03em;
+
+    --text-headline-lg: 2rem;
+    --text-headline-lg--line-height: 2.5rem;
+    --text-headline-lg--letter-spacing: -0.02em;
+
+    --text-headline-md: 1.5rem;
+    --text-headline-md--line-height: 2rem;
+    --text-headline-md--letter-spacing: -0.015em;
+
+    --text-headline-sm: 1.25rem;
+    --text-headline-sm--line-height: 1.75rem;
+    --text-headline-sm--letter-spacing: -0.01em;
+
+    --text-body-lg: 1.125rem;
+    --text-body-lg--line-height: 1.75rem;
+    --text-body-lg--letter-spacing: -0.005em;
+
+    --text-body-md: 0.9375rem;
+    --text-body-md--line-height: 1.5rem;
+
+    --text-body-sm: 0.8125rem;
+    --text-body-sm--line-height: 1.125rem;
+    --text-body-sm--letter-spacing: 0.005em;
+
+    --text-label-lg: 0.875rem;
+    --text-label-lg--line-height: 1.25rem;
+    --text-label-lg--letter-spacing: 0.01em;
+
+    --text-label-md: 0.75rem;
+    --text-label-md--line-height: 1rem;
+    --text-label-md--letter-spacing: 0.02em;
+
+    --text-label-caps: 0.6875rem;
+    --text-label-caps--line-height: 0.875rem;
+    --text-label-caps--letter-spacing: 0.06em;
 }
