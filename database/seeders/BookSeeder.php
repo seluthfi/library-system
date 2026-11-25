@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Book;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class BookSeeder extends Seeder
@@ -13,11 +13,16 @@ class BookSeeder extends Seeder
      */
     public function run(): void
     {
+        $pemrogramanId = Category::where('name', 'Pemrograman')->first()?->id;
+        $basisDataId = Category::where('name', 'Basis Data')->first()?->id;
+        $algoritmaId = Category::where('name', 'Algoritma')->first()?->id;
+
         Book::create([
             'title' => 'Pemrograman PHP',
             'author' => 'Luthfi',
             'year' => 2024,
             'stock' => 5,
+            'category_id' => $pemrogramanId,
         ]);
 
         Book::create([
@@ -25,6 +30,7 @@ class BookSeeder extends Seeder
             'author' => 'Rizqi',
             'year' => 2023,
             'stock' => 8,
+            'category_id' => $pemrogramanId,
         ]);
 
         Book::create([
@@ -32,6 +38,7 @@ class BookSeeder extends Seeder
             'author' => 'Rahman',
             'year' => 2025,
             'stock' => 10,
+            'category_id' => $basisDataId,
         ]);
 
         Book::create([
@@ -39,6 +46,7 @@ class BookSeeder extends Seeder
             'author' => 'Juneo',
             'year' => 2024,
             'stock' => 7,
+            'category_id' => $algoritmaId,
         ]);
 
         Book::create([
@@ -46,6 +54,7 @@ class BookSeeder extends Seeder
             'author' => 'Zhilan',
             'year' => 2024,
             'stock' => 6,
+            'category_id' => $pemrogramanId,
         ]);
     }
 }
