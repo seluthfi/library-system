@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BorrowingController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
@@ -32,6 +33,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/books/{id}', [BookController::class, 'show'])->name('buku.show');
     Route::get('/categories', [CategoryController::class, 'index'])->name('kategori');
     Route::get('/members', [MemberController::class, 'index'])->name('anggota');
+    Route::get('/borrowings', [BorrowingController::class, 'index'])->name('borrowings.index');
+    Route::get('/borrowings/create', [BorrowingController::class, 'create'])->name('borrowings.create');
+    Route::post('/borrowings', [BorrowingController::class, 'store'])->name('borrowings.store');
+    Route::post('/borrowings/{borrowing}/return', [BorrowingController::class, 'return'])->name('borrowings.return');
 });
 
 Route::middleware(['auth', 'role:admin', 'can:manage-users'])->group(function () {
