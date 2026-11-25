@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = [
-            'Pemrograman',
-            'Basis Data',
-            'Jaringan Komputer',
-            'Sistem Informasi',
-            'Algoritma'
-        ];
-        return view('categories.index', compact('categories'));
+        $title = 'Kategori Buku';
+        $categories = Category::withCount('books')->orderBy('name')->get();
+
+        return view('categories.index', compact('title', 'categories'));
     }
 }
