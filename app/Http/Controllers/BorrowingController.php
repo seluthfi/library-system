@@ -104,4 +104,25 @@ class BorrowingController extends Controller
         return redirect()->route('borrowings.index')
             ->with('success', 'Transaksi peminjaman berhasil disimpan.');
     }
+
+    public function return(Borrowing $borrowing)
+    {
+        if ($borrowing->status !== 'borrowed') {
+            return back()->withErrors(['status' => 'Transaksi ini sudah dikembalikan.']);
+        }
+
+        DB::transaction(function () use ($borrowing) {
+            $borrowing->update([
+                'return_date' => now()->toDateString(),
+                'status' => 'returned',
+            ]);
+
+            foreach ($borrowing->details as $detail) {
+                $detail->book->increment('stock', $detail->quantity);
+            }
+        });
+
+        return redirect()->route('borrowings.index')
+            ->with('success', 'Transaksi pengembalian berhasil disimpan.');
+    }
 }
